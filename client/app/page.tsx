@@ -31,6 +31,14 @@ export default function Home() {
             <span className="text-xl font-bold">إدارة الطلاب</span>
             <p className="text-green-200 text-sm mt-2">إضافة، حذف، وتعديل الطلاب</p>
           </Link>
+          <Link
+            href="/course"
+            className="group block p-6 bg-red-600 text-white rounded-xl hover:bg-red-700 transition-all transform 
+            hover:-translate-y-1 shadow-lg"
+          >
+            <span className="text-xl font-bold">إدارة الكورسات</span>
+            <p className="text-white text-sm mt-2">إضافة، حذف، وتعديل الكورسات</p>
+          </Link>
         </div>
       </div>
     </main>

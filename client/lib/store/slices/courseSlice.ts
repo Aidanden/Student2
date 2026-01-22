@@ -9,11 +9,6 @@ import {
 import { courseApi } from "@/lib/api/courseApi";
 
 
-
-
-
-
-
 // Initial State
 const initialState: CourseState = {
     Courses: [],

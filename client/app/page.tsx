@@ -39,6 +39,14 @@ export default function Home() {
             <span className="text-xl font-bold">إدارة الكورسات</span>
             <p className="text-white text-sm mt-2">إضافة، حذف، وتعديل الكورسات</p>
           </Link>
+           <Link
+            href="/enrollment"
+            className="group block p-6 bg-yallow-700 text-black rounded-xl hover:bg-yallow-900 transition-all transform 
+            hover:-translate-y-1 shadow-lg"
+          >
+            <span className="text-xl font-bold">إدارة التسجيل</span>
+            <p className="text-black text-sm mt-2">إضافة، حذف، وتعديل التسجيل</p>
+          </Link>
         </div>
       </div>
     </main>

@@ -5,6 +5,7 @@ import studentReducer from "./slices/studentSlice";
 import courseReducer from "./slices/courseSlice";
 import enrollmentReducer from "./slices/enrollmentSlice";
 import globalReducer from "./slices/globalSlice";
+import authReducer from "./slices/authSlice";
 
 export const store = configureStore({
     reducer: {
@@ -13,6 +14,7 @@ export const store = configureStore({
         students: studentReducer,
         courses: courseReducer,
         enrollments: enrollmentReducer,
+        auth: authReducer,
     },
     middleware: (getDefaultMiddleware) =>
         getDefaultMiddleware({

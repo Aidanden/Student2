@@ -7,7 +7,11 @@ import {
     deleteEnrollment,
 } from "../controllers/enrollmentController";
 
+import { verifyToken } from "../middlewares/authMiddleware";
+
 const router = Router();
+
+router.use(verifyToken);
 
 router.get("/", getEnrollment);
 router.get("/:id", getEnrollmentById);

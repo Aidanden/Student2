@@ -7,7 +7,11 @@ import {
     deleteStudent,
 } from "../controllers/studentController";
 
+import { verifyToken } from "../middlewares/authMiddleware";
+
 const router = Router();
+
+router.use(verifyToken);
 
 router.get("/", getStudent);
 router.get("/:id", getStudentById);

@@ -1,62 +1,61 @@
-// Student API Service
-import { Enrollment, CreateEnrollmentDto, UpdateEnrollmentDto }from "@/types/enrollment.types";
+// Enrollment API Service
+import { Enrollment, CreateEnrollmentDto, UpdateEnrollmentDto } from "@/types/enrollment.types";
+import { authFetch } from "./authFetch";
 
-const API_URL = `${process.env.NEXT_PUBLIC_API_URL}/enrollments`
-    || "http://localhost:7000/enrollments";
+const API_URL = `${process.env.NEXT_PUBLIC_API_URL}/enrollments` || "http://localhost:7000/enrollments";
 
 export const enrollmentApi = {
-    // Get all students
+    // Get all enrollments
     async getAll(): Promise<Enrollment[]> {
-        const response = await fetch(API_URL);
+        const response = await authFetch(API_URL);
         if (!response.ok) {
             throw new Error("فشل في جلب البيانات");
         }
         return response.json();
     },
 
-    // Get student by ID
+    // Get enrollment by ID
     async getById(id: number): Promise<Enrollment> {
-        const response = await fetch(`${API_URL}/${id}`);
+        const response = await authFetch(`${API_URL}/${id}`);
         if (!response.ok) {
-            throw new Error("فشل في العملية");
+            throw new Error("فشل في جلب التسجيل");
         }
         return response.json();
     },
 
-    // Create new student
+    // Create new enrollment
     async create(data: CreateEnrollmentDto): Promise<Enrollment> {
-        const response = await fetch(API_URL, {
+        const response = await authFetch(API_URL, {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify(data),
         });
         if (!response.ok) {
-            throw new Error("فشل في إضافة ");
+            throw new Error("فشل في إضافة التسجيل");
         }
-        const result = await response.json();
-        return result.newEnrollment || result;
+        return response.json();
     },
 
-    // Update student
+    // Update enrollment
     async update(id: number, data: UpdateEnrollmentDto): Promise<Enrollment> {
-        const response = await fetch(`${API_URL}/${id}`, {
+        const response = await authFetch(`${API_URL}/${id}`, {
             method: "PUT",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify(data),
         });
         if (!response.ok) {
-            throw new Error("فشل في تحديث ");
+            throw new Error("فشل في تحديث التسجيل");
         }
         return response.json();
     },
 
-    // Delete student
+    // Delete enrollment
     async delete(id: number): Promise<void> {
-        const response = await fetch(`${API_URL}/${id}`, {
+        const response = await authFetch(`${API_URL}/${id}`, {
             method: "DELETE",
         });
         if (!response.ok) {
-            throw new Error("فشل في الحذف ");
+            throw new Error("فشل في حذف التسجيل");
         }
     },
 };

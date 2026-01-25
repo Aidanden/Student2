@@ -7,7 +7,12 @@ import {
     deleteDepartment,
 } from "../controllers/departmentController";
 
+import { verifyToken } from "../middlewares/authMiddleware";
+
 const router = Router();
+
+// Protect all routes
+router.use(verifyToken);
 
 router.get("/", getDepartments);
 router.get("/:id", getDepartmentById);

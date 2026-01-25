@@ -6,7 +6,7 @@
 
 generator client {
   provider = "prisma-client-js"
-  output = "../src/generated/prisma"
+  output   = "../src/generated/prisma"
 }
 
 datasource db {
@@ -49,4 +49,10 @@ model Enrollment {
   course    Course  @relation(fields: [courseId], references: [id])
   courseId  Int
   grade     Float? // الدرجة
+}
+
+model User {
+  id       Int    @id @default(autoincrement())
+  username String @unique
+  password String
 }

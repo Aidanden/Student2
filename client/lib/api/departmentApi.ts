@@ -1,15 +1,13 @@
 // Department API Service
 import { Department, CreateDepartmentDto, UpdateDepartmentDto } from "@/types/department.types";
+import { authFetch } from "./authFetch";
 
 const API_URL = `${process.env.NEXT_PUBLIC_API_URL}/departments` || "http://localhost:7000/departments";
-
-
-
 
 export const departmentApi = {
     // Get all departments
     async getAll(): Promise<Department[]> {
-        const response = await fetch(API_URL);
+        const response = await authFetch(API_URL);
         if (!response.ok) {
             throw new Error("فشل في جلب البيانات");
         }
@@ -19,7 +17,7 @@ export const departmentApi = {
 
     // Get department by ID
     async getById(id: number): Promise<Department> {  //Return Type Annotation
-        const response = await fetch(`${API_URL}/${id}`);
+        const response = await authFetch(`${API_URL}/${id}`);
         if (!response.ok) {
             throw new Error("فشل في جلب القسم");
         }
@@ -28,7 +26,7 @@ export const departmentApi = {
 
     // Create new department
     async create(data: CreateDepartmentDto): Promise<Department> {
-        const response = await fetch(API_URL, {
+        const response = await authFetch(API_URL, {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify(data),
@@ -42,7 +40,7 @@ export const departmentApi = {
 
     // Update department
     async update(id: number, data: UpdateDepartmentDto): Promise<Department> {
-        const response = await fetch(`${API_URL}/${id}`, {
+        const response = await authFetch(`${API_URL}/${id}`, {
             method: "PUT",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify(data),
@@ -55,7 +53,7 @@ export const departmentApi = {
 
     // Delete department
     async delete(id: number): Promise<void> {
-        const response = await fetch(`${API_URL}/${id}`, {
+        const response = await authFetch(`${API_URL}/${id}`, {
             method: "DELETE",
         });
         if (!response.ok) {
@@ -63,5 +61,3 @@ export const departmentApi = {
         }
     },
 };
-
-

@@ -20,7 +20,7 @@ app.use("/departments", departmentRoutes);
 app.use("/students", studentRoutes);
 app.use("/courses", courseRoutes);
 app.use("/enrollments", enrollmentRoutes);
-app.use("/auth", authRoutes);
+app.use("/users", authRoutes);
 // Root route
 app.get("/", (req, res) => {
     res.send("Welcome to Student Management API");

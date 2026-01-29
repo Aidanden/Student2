@@ -6,6 +6,7 @@ import React, { useState } from "react";
 import { useDispatch } from "react-redux";
 import { setCredentials } from "@/lib/store/slices/authSlice";
 import { useRouter } from "next/navigation";
+import { authApi } from "@/lib/api/authApi";
 
 const LoginPage = () => {
     const [username, setUsername] = useState("");
@@ -21,24 +22,11 @@ const LoginPage = () => {
         setError("");
 
         try {
-            const response = await fetch("http://localhost:7000/auth/login", {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json",
-                },
-                body: JSON.stringify({ username, password }),
-            });
-
-            const data = await response.json();
-
-            if (!response.ok) {
-                throw new Error(data.error || "Login failed");
-            }
-
+            const data = await authApi.login({ username, password });
             dispatch(setCredentials({ user: data.user, token: data.token }));
             router.push("/");
         } catch (err: any) {
-            setError(err.message);
+            setError(err.message || "فشل في تسجيل الدخول");
         } finally {
             setIsLoading(false);
         }
@@ -62,7 +50,7 @@ const LoginPage = () => {
                             type="text"
                             value={username}
                             onChange={(e) => setUsername(e.target.value)}
-                            className="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:outline-none"
+                            className="w-full px-4 py-2 border rounded-lg focus:ring-2 text-black focus:ring-blue-500 focus:outline-none"
                             placeholder="Enter your username"
                             required
                         />
@@ -75,7 +63,7 @@ const LoginPage = () => {
                             type="password"
                             value={password}
                             onChange={(e) => setPassword(e.target.value)}
-                            className="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:outline-none"
+                            className="w-full px-4 py-2 border rounded-lg focus:ring-2 text-black focus:ring-blue-500 focus:outline-none"
                             placeholder="Enter your password"
                             required
                         />

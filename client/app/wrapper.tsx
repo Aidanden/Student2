@@ -18,7 +18,7 @@ const Layout = ({ children }: { children: React.ReactNode }) => {
   return (
     <div
       dir="rtl"
-      className={`bg-slate-50 dark:bg-[#020617] text-slate-900 dark:text-slate-100 w-full min-h-screen flex transition-colors duration-300`}
+      className="bg-[#0f172a] text-slate-100 w-full min-h-screen flex transition-colors duration-300"
     >
       {!isAuthPage && <Sidebar />}
       <div

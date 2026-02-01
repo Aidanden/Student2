@@ -1,5 +1,3 @@
-"use strict";
-
 "use client";
 
 import React, { useState } from "react";
@@ -25,55 +23,62 @@ const LoginPage = () => {
             const data = await authApi.login({ username, password });
             dispatch(setCredentials({ user: data.user, token: data.token }));
             router.push("/");
-        } catch (err: any) {
-            setError(err.message || "فشل في تسجيل الدخول");
+        } catch (err: unknown) {
+            setError((err as { message?: string })?.message || "فشل في تسجيل الدخول");
         } finally {
             setIsLoading(false);
         }
     };
 
     return (
-        <div className="flex items-center justify-center min-h-screen bg-gray-100">
-            <div className="w-full max-w-md p-8 space-y-6 bg-white rounded-lg shadow-md">
-                <h2 className="text-3xl font-bold text-center text-gray-800">Login</h2>
+        <div className="flex items-center justify-center min-h-screen bg-[#0f172a] p-4">
+            <div className="absolute inset-0 overflow-hidden pointer-events-none opacity-20">
+                <div className="absolute -top-24 -right-24 w-64 h-64 bg-blue-600 rounded-full blur-[100px]" />
+                <div className="absolute bottom-48 -left-24 w-48 h-48 bg-indigo-600 rounded-full blur-[80px]" />
+            </div>
+
+            <div className="relative w-full max-w-md p-8 space-y-6 bg-slate-800/60 border border-slate-700 rounded-2xl shadow-xl">
+                <h2 className="text-2xl font-bold text-center bg-gradient-to-l from-white to-slate-400 bg-clip-text text-transparent">
+                    تسجيل الدخول
+                </h2>
                 {error && (
-                    <div className="p-3 text-sm text-red-700 bg-red-100 rounded-lg">
+                    <div className="p-3 text-sm text-red-300 bg-red-900/30 border border-red-700/50 rounded-xl">
                         {error}
                     </div>
                 )}
                 <form className="space-y-4" onSubmit={handleSubmit}>
                     <div>
-                        <label className="block mb-2 text-sm font-medium text-gray-700">
-                            Username
+                        <label className="block mb-2 text-sm font-medium text-slate-300">
+                            اسم المستخدم
                         </label>
                         <input
                             type="text"
                             value={username}
                             onChange={(e) => setUsername(e.target.value)}
-                            className="w-full px-4 py-2 border rounded-lg focus:ring-2 text-black focus:ring-blue-500 focus:outline-none"
-                            placeholder="Enter your username"
+                            className="w-full px-4 py-3 bg-slate-900/50 border border-slate-700 rounded-xl text-white placeholder-slate-500 focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500/50"
+                            placeholder="أدخل اسم المستخدم"
                             required
                         />
                     </div>
                     <div>
-                        <label className="block mb-2 text-sm font-medium text-gray-700">
-                            Password
+                        <label className="block mb-2 text-sm font-medium text-slate-300">
+                            كلمة المرور
                         </label>
                         <input
                             type="password"
                             value={password}
                             onChange={(e) => setPassword(e.target.value)}
-                            className="w-full px-4 py-2 border rounded-lg focus:ring-2 text-black focus:ring-blue-500 focus:outline-none"
-                            placeholder="Enter your password"
+                            className="w-full px-4 py-3 bg-slate-900/50 border border-slate-700 rounded-xl text-white placeholder-slate-500 focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500/50"
+                            placeholder="أدخل كلمة المرور"
                             required
                         />
                     </div>
                     <button
                         type="submit"
                         disabled={isLoading}
-                        className="w-full py-2 text-white bg-blue-600 rounded-lg hover:bg-blue-700 disabled:bg-blue-300 transition-colors"
+                        className="w-full py-3 text-white bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-500 hover:to-indigo-500 rounded-xl font-semibold shadow-lg transition-all disabled:opacity-50 disabled:cursor-not-allowed"
                     >
-                        {isLoading ? "Logging in..." : "Login"}
+                        {isLoading ? "جاري تسجيل الدخول..." : "تسجيل الدخول"}
                     </button>
                 </form>
             </div>

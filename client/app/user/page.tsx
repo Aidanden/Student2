@@ -12,7 +12,7 @@ import {
 } from "@/lib/store/slices/userSlice";
 import { User } from "@/types/user.type";
 
-export default function StudentPage() {
+export default function UserPage() {
     // Redux State
     const dispatch = useAppDispatch();
     const { Users, loading, error } = useAppSelector((state) => state.users);
@@ -125,46 +125,39 @@ export default function StudentPage() {
 
 
     return (
-        <div className="min-h-screen bg-gradient-to-br from-green-500 to-teal-100 p-8">
-            <div className="max-w-6xl mx-auto">
-                {/* Header */}
-                <div className="flex justify-between items-center mb-8 bg-white p-6 rounded-xl shadow-lg">
-                    <div>
-                        <h1 className="text-4xl font-bold text-teal-900 mb-2">إدارة المستخدم</h1>
-                    </div>
+        <div className="min-h-[calc(100vh-64px)] p-6">
+            <div className="max-w-6xl mx-auto space-y-6">
+                <div className="flex justify-between items-center bg-slate-800/60 border border-slate-700 p-6 rounded-xl shadow-xl">
+                    <h1 className="text-2xl font-bold bg-gradient-to-l from-white to-slate-400 bg-clip-text text-transparent">إدارة المستخدمين</h1>
                     <Link
                         href="/"
-                        className="bg-gray-100 hover:bg-gray-200 text-gray-700 px-6 py-3 rounded-lg font-semibold transition-all transform hover:-translate-y-1 shadow-md"
+                        className="px-4 py-3 rounded-xl bg-slate-700/50 hover:bg-slate-600 text-slate-200 border border-slate-600 font-medium transition-all"
                     >
                         ← الرجوع للرئيسية
                     </Link>
                 </div>
 
-                {/* Add Form */}
-                <form onSubmit={handleAddUser} className="mb-8 p-8 bg-white rounded-xl shadow-lg border-2 border-teal-100">
-                    <h2 className="text-2xl font-bold mb-6 text-teal-800 flex items-center gap-2">
-                        إضافة مستخدم جديد
-                    </h2>
-                    <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-4">
+                <form onSubmit={handleAddUser} className="p-8 bg-slate-800/60 border border-slate-700 rounded-xl shadow-xl">
+                    <h2 className="text-xl font-bold mb-6 text-slate-200">إضافة مستخدم جديد</h2>
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
                         <input
                             type="text"
                             value={newUserName}
                             onChange={(e) => setNewUserName(e.target.value)}
                             placeholder="اسم المستخدم"
-                            className="p-4 border-2 border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-teal-500 focus:border-transparent text-lg"
+                            className="p-4 bg-slate-900/50 border border-slate-700 rounded-xl text-white placeholder-slate-500 focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500/50 text-lg"
                         />
                         <input
                             type="password"
                             value={newPassword}
                             onChange={(e) => setNewPassword(e.target.value)}
                             placeholder="كلمة المرور"
-                            className="p-4 border-2 border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-teal-500 focus:border-transparent text-lg"
+                            className="p-4 bg-slate-900/50 border border-slate-700 rounded-xl text-white placeholder-slate-500 focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500/50 text-lg"
                         />
-
                     </div>
                     <button
                         type="submit"
-                        className="w-full bg-teal-600 text-white px-8 py-4 rounded-lg hover:bg-teal-700 transition-all transform hover:-translate-y-1 shadow-md font-bold text-lg"
+                        className="w-full bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-500 hover:to-indigo-500 text-white px-8 py-4 rounded-xl font-bold text-lg shadow-lg transition-all"
                     >
                         إضافة
                     </button>
@@ -172,23 +165,23 @@ export default function StudentPage() {
 
                 {/* Loading/Error States */}
                 {loading ? (
-                    <div className="text-center p-12 bg-white rounded-xl shadow-lg">
-                        <div className="inline-block animate-spin rounded-full h-12 w-12 border-b-4 border-teal-600 mb-4"></div>
-                        <p className="text-gray-600 text-lg">جاري تحميل البيانات...</p>
+                    <div className="text-center p-12 bg-slate-800/60 border border-slate-700 rounded-xl">
+                        <div className="inline-block animate-spin rounded-full h-12 w-12 border-4 border-slate-600 border-t-blue-500 mb-4"></div>
+                        <p className="text-slate-400 text-lg">جاري تحميل البيانات...</p>
                     </div>
                 ) : error ? (
-                    <div className="text-center p-12 bg-red-50 rounded-xl shadow-lg border-2 border-red-200">
-                        <p className="text-red-600 text-lg font-semibold">خطأ: {error}</p>
+                    <div className="text-center p-12 bg-red-900/20 border border-red-700/50 rounded-xl">
+                        <p className="text-red-300 text-lg font-semibold">خطأ: {error}</p>
                         <div className="flex gap-4 justify-center mt-4">
                             <button
                                 onClick={() => dispatch(fetchUsers())}
-                                className="bg-red-600 text-white px-6 py-2 rounded-lg hover:bg-red-700 transition"
+                                className="bg-red-600 text-white px-6 py-2 rounded-xl hover:bg-red-500 transition"
                             >
                                 إعادة المحاولة
                             </button>
                             <button
                                 onClick={handleClearError}
-                                className="bg-gray-500 text-white px-6 py-2 rounded-lg hover:bg-gray-600 transition"
+                                className="bg-slate-600 text-white px-6 py-2 rounded-xl hover:bg-slate-500 transition"
                             >
                                 إغلاق
                             </button>
@@ -196,37 +189,33 @@ export default function StudentPage() {
                     </div>
                 ) : (
                     <>
-                        {/* Statistics */}
-                        <div className="mb-6 p-4 bg-white rounded-lg shadow-md">
-                            <p className="text-gray-700 text-lg">
-                                <span className="font-bold text-teal-600">عدد المستخدمين:</span> {Users.length}
+                        <div className="p-4 bg-slate-800/60 border border-slate-700 rounded-xl">
+                            <p className="text-slate-300 text-lg">
+                                <span className="font-bold text-blue-400">عدد المستخدمين:</span> {Users.length}
                             </p>
                         </div>
 
-                        {/* Students List */}
                         <div className="space-y-4">
                             {Users.map((user) => (
                                 <div
                                     key={user.id}
-                                    className="bg-white border-2 border-gray-200 rounded-xl shadow-lg hover:shadow-xl transition-all overflow-hidden"
+                                    className="bg-slate-800/60 border border-slate-700 rounded-xl overflow-hidden hover:border-slate-600 transition-all"
                                 >
-                                    {/* Student Header */}
                                     <div className="p-6">
                                         {editingId === user.id ? (
-                                            // Edit Mode
                                             <div className="space-y-3">
                                                 <div className="flex gap-3 items-center">
-                                                    <span className="text-sm font-mono bg-teal-100 text-teal-800 px-3 py-1 rounded">
+                                                    <span className="text-sm font-mono bg-slate-700 text-slate-300 px-3 py-1 rounded-lg">
                                                         ID: {user.id}
                                                     </span>
                                                 </div>
-                                                <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
+                                                <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
                                                     <input
                                                         type="text"
                                                         value={editUserName}
                                                         onChange={(e) => setEditUserName(e.target.value)}
                                                         placeholder="اسم المستخدم"
-                                                        className="p-3 border-2 border-teal-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-teal-500 text-lg"
+                                                        className="p-3 bg-slate-900/50 border border-slate-700 rounded-xl text-white focus:outline-none focus:border-blue-500 text-lg"
                                                         autoFocus
                                                     />
                                                     <input
@@ -234,54 +223,45 @@ export default function StudentPage() {
                                                         value={editPassword}
                                                         onChange={(e) => setEditPassword(e.target.value)}
                                                         placeholder="كلمة المرور"
-                                                        className="p-3 border-2 border-teal-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-teal-500 text-lg"
+                                                        className="p-3 bg-slate-900/50 border border-slate-700 rounded-xl text-white focus:outline-none focus:border-blue-500 text-lg"
                                                     />
-
                                                 </div>
                                                 <div className="flex gap-3 justify-end">
                                                     <button
                                                         onClick={() => handleUpdateUser(user.id)}
-                                                        className="bg-green-600 text-white px-6 py-3 rounded-lg hover:bg-green-700 transition font-semibold"
+                                                        className="bg-emerald-600 text-white px-6 py-3 rounded-xl hover:bg-emerald-500 transition font-semibold"
                                                     >
                                                         ✓ حفظ
                                                     </button>
                                                     <button
                                                         onClick={cancelEdit}
-                                                        className="bg-gray-500 text-white px-6 py-3 rounded-lg hover:bg-gray-600 transition font-semibold"
+                                                        className="bg-slate-600 text-white px-6 py-3 rounded-xl hover:bg-slate-500 transition font-semibold"
                                                     >
                                                         ✕ إلغاء
                                                     </button>
                                                 </div>
                                             </div>
                                         ) : (
-                                            // View Mode
                                             <div className="flex justify-between items-center">
                                                 <div className="flex items-center gap-4">
-                                                    <span className="text-sm font-mono bg-teal-100 text-teal-800 px-3 py-1 rounded">
+                                                    <span className="text-sm font-mono bg-slate-700 text-slate-300 px-3 py-1 rounded-lg">
                                                         ID: {user.id}
                                                     </span>
                                                     <div>
-                                                        <h3 className="text-2xl font-bold text-gray-800">{user.username}</h3>
-                                                        <p className="text-gray-600">{user.password}</p>
+                                                        <h3 className="text-xl font-bold text-white">{user.username}</h3>
+                                                        <p className="text-slate-400 text-sm">••••••••</p>
                                                     </div>
-
                                                 </div>
                                                 <div className="flex gap-2">
                                                     <button
-                                                        onClick={() => toggleExpand(user.id)}
-                                                        className="bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600 transition font-semibold"
-                                                    >
-                                                        {expandedId === user.id ? "▲ إخفاء التفاصيل" : "▼ عرض التفاصيل"}
-                                                    </button>
-                                                    <button
                                                         onClick={() => startEdit(user)}
-                                                        className="bg-yellow-500 text-white px-4 py-2 rounded-lg hover:bg-yellow-600 transition font-semibold"
+                                                        className="bg-amber-500 text-white px-4 py-2 rounded-xl hover:bg-amber-600 transition font-semibold"
                                                     >
                                                         تعديل
                                                     </button>
                                                     <button
                                                         onClick={() => handleDeleteUser(user.id)}
-                                                        className="bg-red-500 text-white px-4 py-2 rounded-lg hover:bg-red-600 transition font-semibold"
+                                                        className="bg-red-500 text-white px-4 py-2 rounded-xl hover:bg-red-600 transition font-semibold"
                                                     >
                                                         حذف
                                                     </button>
@@ -289,16 +269,12 @@ export default function StudentPage() {
                                             </div>
                                         )}
                                     </div>
-
-                                    {/* Expanded Details */}
-
                                 </div>
                             ))}
 
                             {Users.length === 0 && (
-                                <div className="text-center p-12 bg-white rounded-xl shadow-lg">
-                                    <div className="text-6xl mb-4">🎓</div>
-                                    <p className="text-gray-600 text-lg">لا يوجد طلاب بعد. قم بإضافة طالب جديد!</p>
+                                <div className="text-center p-12 bg-slate-800/60 border border-slate-700 rounded-xl">
+                                    <p className="text-slate-400 text-lg">لا يوجد مستخدمون بعد. قم بإضافة مستخدم جديد!</p>
                                 </div>
                             )}
                         </div>

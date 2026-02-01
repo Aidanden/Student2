@@ -14,7 +14,6 @@ import { fetchStudents } from "@/lib/store/slices/studentSlice";
 import { fetchCourses } from "@/lib/store/slices/courseSlice";
 
 import { Enrollment } from "@/types/enrollment.types";
-import { setuid } from "process";
 
 export default function EnrollmentPage() {
     // Redux State
@@ -154,33 +153,25 @@ useEffect(() => {
     };
 
     return (
-        <div className="min-h-screen bg-gradient-to-br from-blue-50 to-teal-100 p-6">
-            <div className="max-w-6xl mx-auto">
-                {/* Header */}
-                <div className="flex justify-between items-center mb-8 bg-white p-6 rounded-xl shadow-lg">
-                    <div>
-                        <h1 className="text-4xl font-bold text-teal-900 mb-2">إدارة التسجيل</h1>
-                    </div>
+        <div className="min-h-[calc(100vh-64px)] p-6">
+            <div className="max-w-6xl mx-auto space-y-6">
+                <div className="flex justify-between items-center bg-slate-800/60 border border-slate-700 p-6 rounded-xl shadow-xl">
+                    <h1 className="text-2xl font-bold bg-gradient-to-l from-white to-slate-400 bg-clip-text text-transparent">إدارة التسجيل</h1>
                     <Link 
                         href="/" 
-                        className="bg-gray-100 hover:bg-gray-200 text-gray-700 px-6 py-3 rounded-lg font-semibold transition-all transform hover:-translate-y-1 shadow-md"
+                        className="px-4 py-3 rounded-xl bg-slate-700/50 hover:bg-slate-600 text-slate-200 border border-slate-600 font-medium transition-all"
                     >
                         ← الرجوع للرئيسية
                     </Link>
                 </div>
 
-                {/* Add Form */}
-                <form onSubmit={handleAddEnrollment} className="mb-8 p-8 bg-white rounded-xl shadow-lg border-2 border-teal-100">
-                    <h2 className="text-2xl font-bold mb-6 text-teal-800 flex items-center gap-2">
-                        إضافة
-                    </h2>
+                <form onSubmit={handleAddEnrollment} className="p-8 bg-slate-800/60 border border-slate-700 rounded-xl shadow-xl">
+                    <h2 className="text-xl font-bold mb-6 text-slate-200">إضافة تسجيل جديد</h2>
                     <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-4">
-
-
-                         <select
+                        <select
                             value={newStudentId}
                             onChange={(e) => setNewStudentId(e.target.value ? parseInt(e.target.value) : "")}
-                            className="p-4 border-2 text-gray-900 border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-teal-500 focus:border-transparent text-lg"
+                            className="p-4 bg-slate-900/50 border border-slate-700 rounded-xl text-white focus:outline-none focus:border-blue-500 text-lg"
                         >
                             <option value="">اختر الطالب</option>
                             {students.map((student) => (
@@ -192,7 +183,7 @@ useEffect(() => {
                         <select
                             value={newCourseId}
                             onChange={(e) => setNewCourseId(e.target.value ? parseInt(e.target.value) : "")}
-                            className="p-4 border-2 text-gray-900 border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-teal-500 focus:border-transparent text-lg"
+                            className="p-4 bg-slate-900/50 border border-slate-700 rounded-xl text-white focus:outline-none focus:border-blue-500 text-lg"
                         >
                             <option value="">اختر الكورس</option>
                             {Courses.map((course) => (
@@ -206,13 +197,12 @@ useEffect(() => {
                             value={newGrade}
                             onChange={(e) => setNewGrade(e.target.value ? parseInt(e.target.value) : "")}
                             placeholder="الدرجة"
-                            className="p-4 border-2 text-gray-900 border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-teal-500 focus:border-transparent text-lg"
+                            className="p-4 bg-slate-900/50 border border-slate-700 rounded-xl text-white placeholder-slate-500 focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500/50 text-lg"
                         />
-                       
                     </div>
                     <button
                         type="submit"
-                        className="w-full bg-teal-600 text-white px-8 py-4 rounded-lg hover:bg-teal-700 transition-all transform hover:-translate-y-1 shadow-md font-bold text-lg"
+                        className="w-full bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-500 hover:to-indigo-500 text-white px-8 py-4 rounded-xl font-bold text-lg shadow-lg transition-all"
                     >
                         إضافة
                     </button>
@@ -220,23 +210,23 @@ useEffect(() => {
 
                 {/* Loading/Error States */}
                 {loading ? (
-                    <div className="text-center p-12 bg-white rounded-xl shadow-lg">
-                        <div className="inline-block animate-spin rounded-full h-12 w-12 border-b-4 border-teal-600 mb-4"></div>
-                        <p className="text-gray-600 text-lg">جاري تحميل البيانات...</p>
+                    <div className="text-center p-12 bg-slate-800/60 border border-slate-700 rounded-xl">
+                        <div className="inline-block animate-spin rounded-full h-12 w-12 border-4 border-slate-600 border-t-blue-500 mb-4"></div>
+                        <p className="text-slate-400 text-lg">جاري تحميل البيانات...</p>
                     </div>
                 ) : error ? (
-                    <div className="text-center p-12 bg-red-50 rounded-xl shadow-lg border-2 border-red-200">
-                        <p className="text-red-600 text-lg font-semibold">خطأ: {error}</p>
+                    <div className="text-center p-12 bg-red-900/20 border border-red-700/50 rounded-xl">
+                        <p className="text-red-300 text-lg font-semibold">خطأ: {error}</p>
                         <div className="flex gap-4 justify-center mt-4">
                             <button 
                                 onClick={() => dispatch(fetchEnrollment())}
-                                className="bg-red-600 text-white px-6 py-2 rounded-lg hover:bg-red-700 transition"
+                                className="bg-red-600 text-white px-6 py-2 rounded-xl hover:bg-red-500 transition"
                             >
                                 إعادة المحاولة
                             </button>
                             <button 
                                 onClick={handleClearError}
-                                className="bg-gray-500 text-white px-6 py-2 rounded-lg hover:bg-gray-600 transition"
+                                className="bg-slate-600 text-white px-6 py-2 rounded-xl hover:bg-slate-500 transition"
                             >
                                 إغلاق
                             </button>
@@ -244,109 +234,100 @@ useEffect(() => {
                     </div>
                 ) : (
                     <>
-                        {/* Statistics */}
-                        <div className="mb-6 p-4 bg-white rounded-lg shadow-md">
-                            <p className="text-gray-700 text-lg">
-                                <span className="font-bold text-teal-600">عدد التسجيلات</span> {Courses.length}
+                        <div className="p-4 bg-slate-800/60 border border-slate-700 rounded-xl">
+                            <p className="text-slate-300 text-lg">
+                                <span className="font-bold text-blue-400">عدد التسجيلات:</span> {enrollment.length}
                             </p>
                         </div>
 
-                        
                         <div className="space-y-4">
-                            {enrollment.map((enrollment) => (
+                            {enrollment.map((item) => (
                                 <div
-                                    key={enrollment.id}
-                                    className="bg-white border-2 border-gray-200 rounded-xl shadow-lg hover:shadow-xl transition-all overflow-hidden"
+                                    key={item.id}
+                                    className="bg-slate-800/60 border border-slate-700 rounded-xl overflow-hidden hover:border-slate-600 transition-all"
                                 >
-                                    {/* Student Header */}
                                     <div className="p-6">
-                                        {editingId ===enrollment.id? (
-                                            // Edit Mode
+                                        {editingId === item.id ? (
                                             <div className="space-y-3">
                                                 <div className="flex gap-3 items-center">
-                                                    <span className="text-sm font-mono bg-teal-100 text-teal-800 px-3 py-1 rounded">
-                                                        ID: {enrollment.id}
+                                                    <span className="text-sm font-mono bg-slate-700 text-slate-300 px-3 py-1 rounded-lg">
+                                                        ID: {item.id}
                                                     </span>
                                                 </div>
                                                 <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
                                                     <select
-                                                         value={EditStudentId}
-                                                         onChange={(e) => setEditStudentId(e.target.value ? parseInt(e.target.value) : "")}
-                                                         className="p-4 border-2 text-gray-900 border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-teal-500 focus:border-transparent text-lg"
-                                                     >
-                                                            <option value="">اختر الطالب</option>
-                                                            {students.map((student) => (
-                                                                <option key={student.id} value={student.id}>
-                                                                    {student.name}
-                                                             </option>
-                                                         ))}
-                                                     </select>
-                                                      <select
-                                                         value={EditCourseId}
-                                                         onChange={(e) => setEditCourseId(e.target.value ? parseInt(e.target.value) : "")}
-                                                         className="p-4 border-2 text-gray-900 border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-teal-500 focus:border-transparent text-lg"
-                                                     >
-                                                            <option value="">اختر الكورس</option>
-                                                            { Courses.map((course) => (
-                                                                <option key={course.id} value={course.id}>
-                                                                    {course.title}
-                                                             </option>
-                                                         ))}
-                                                     </select>
+                                                        value={EditStudentId}
+                                                        onChange={(e) => setEditStudentId(e.target.value ? parseInt(e.target.value) : "")}
+                                                        className="p-4 bg-slate-900/50 border border-slate-700 rounded-xl text-white focus:outline-none focus:border-blue-500 text-lg"
+                                                    >
+                                                        <option value="">اختر الطالب</option>
+                                                        {students.map((student) => (
+                                                            <option key={student.id} value={student.id}>
+                                                                {student.name}
+                                                            </option>
+                                                        ))}
+                                                    </select>
+                                                    <select
+                                                        value={EditCourseId}
+                                                        onChange={(e) => setEditCourseId(e.target.value ? parseInt(e.target.value) : "")}
+                                                        className="p-4 bg-slate-900/50 border border-slate-700 rounded-xl text-white focus:outline-none focus:border-blue-500 text-lg"
+                                                    >
+                                                        <option value="">اختر الكورس</option>
+                                                        {Courses.map((course) => (
+                                                            <option key={course.id} value={course.id}>
+                                                                {course.title}
+                                                            </option>
+                                                        ))}
+                                                    </select>
                                                     <input
                                                         type="text"
                                                         value={editGrade}
                                                         onChange={(e) => setEditGrade(e.target.value ? parseInt(e.target.value) : "")}
                                                         placeholder="الدرجة"
-                                                        className="p-3 border-2 text-gray-900 border-teal-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-teal-500 text-lg"
+                                                        className="p-3 bg-slate-900/50 border border-slate-700 rounded-xl text-white focus:outline-none focus:border-blue-500 text-lg"
                                                     />
-                                                   
                                                 </div>
                                                 <div className="flex gap-3 justify-end">
                                                     <button
-                                                        onClick={() => handleUpdateEnrollment(enrollment.id)}
-                                                        className="bg-green-600 text-white px-6 py-3 rounded-lg hover:bg-green-700 transition font-semibold"
+                                                        onClick={() => handleUpdateEnrollment(item.id)}
+                                                        className="bg-emerald-600 text-white px-6 py-3 rounded-xl hover:bg-emerald-500 transition font-semibold"
                                                     >
                                                         ✓ حفظ
                                                     </button>
                                                     <button
                                                         onClick={cancelEdit}
-                                                        className="bg-gray-500 text-white px-6 py-3 rounded-lg hover:bg-gray-600 transition font-semibold"
+                                                        className="bg-slate-600 text-white px-6 py-3 rounded-xl hover:bg-slate-500 transition font-semibold"
                                                     >
                                                         ✕ إلغاء
                                                     </button>
                                                 </div>
                                             </div>
                                         ) : (
-                                            // View Mode
                                             <div className="flex justify-between items-center">
                                                 <div className="flex items-center gap-4">
-                                                    <span className="text-sm font-mono bg-teal-100 text-teal-800 px-3 py-1 rounded">
-                                                        ID: {enrollment.id}
+                                                    <span className="text-sm font-mono bg-slate-700 text-slate-300 px-3 py-1 rounded-lg">
+                                                        ID: {item.id}
                                                     </span>
-                                                   
-                                                    <span className="text-sm bg-purple-100 text-purple-800 px-3 py-1 rounded-full">
-                                                        {getStudentName(enrollment.studentId)}
+                                                    <span className="text-sm bg-indigo-500/20 text-indigo-300 px-3 py-1 rounded-full">
+                                                        {getStudentName(item.studentId)}
                                                     </span>
-                                                       <span className="text-sm bg-purple-100 text-purple-800 px-3 py-1 rounded-full">
-                                                        {getCourseName(enrollment.courseId)}
+                                                    <span className="text-sm bg-blue-500/20 text-blue-300 px-3 py-1 rounded-full">
+                                                        {getCourseName(item.courseId)}
                                                     </span>
-                                                     <span className="text-sm bg-purple-100 text-purple-800 px-3 py-1 rounded-full">
-                                                        {enrollment.grade}
+                                                    <span className="text-sm bg-emerald-500/20 text-emerald-300 px-3 py-1 rounded-full">
+                                                        {item.grade}
                                                     </span>
-                                                 
                                                 </div>
                                                 <div className="flex gap-2">
-                                                 
                                                     <button
-                                                        onClick={() => startEdit(enrollment)}
-                                                        className="bg-yellow-500 text-white px-4 py-2 rounded-lg hover:bg-yellow-600 transition font-semibold"
+                                                        onClick={() => startEdit(item)}
+                                                        className="bg-amber-500 text-white px-4 py-2 rounded-xl hover:bg-amber-600 transition font-semibold"
                                                     >
                                                         تعديل
                                                     </button>
                                                     <button
-                                                        onClick={() => handleDeleteEnrollment(enrollment.id)}
-                                                        className="bg-red-500 text-white px-4 py-2 rounded-lg hover:bg-red-600 transition font-semibold"
+                                                        onClick={() => handleDeleteEnrollment(item.id)}
+                                                        className="bg-red-500 text-white px-4 py-2 rounded-xl hover:bg-red-600 transition font-semibold"
                                                     >
                                                         حذف
                                                     </button>
@@ -355,34 +336,24 @@ useEffect(() => {
                                         )}
                                     </div>
 
-                                    {/* Expanded Details */}
-                                    {expandedId === enrollment.id && (
-                                        <div className="border-t-2 border-gray-200 bg-gray-50 p-6">
-                                            <h4 className="text-xl font-bold text-gray-800 mb-3">
-                                                البيانات 
-                                            </h4>
-                                            {enrollment.course && enrollment.course.length > 0 ? (
-                                                <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
-                                                    {enrollment.course.map((c) => (
-                                                        <div key={c.id} className="bg-white p-4 rounded-lg border border-gray-300">
-                                                            <p className="text-sm text-gray-600">
-                                                                اسم الكورس : {c.title !== null ? c.title : "لم تحدد بعد"}
-                                                            </p>
-                                                        </div>
-                                                    ))}
-                                                </div>
-                                            ) : (
-                                                <p className="text-gray-500 italic">لا توجد مواد مسجلة لهذا كورس</p>
-                                            )}
+                                    {expandedId === item.id && item.course && item.course.length > 0 && (
+                                        <div className="border-t border-slate-700 bg-slate-900/40 p-6">
+                                            <h4 className="text-lg font-bold text-slate-200 mb-3">البيانات</h4>
+                                            <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+                                                {item.course.map((c) => (
+                                                    <div key={c.id} className="bg-slate-800/60 p-4 rounded-xl border border-slate-700">
+                                                        <p className="text-sm text-slate-300">اسم الكورس: {c.title ?? "لم تحدد بعد"}</p>
+                                                    </div>
+                                                ))}
+                                            </div>
                                         </div>
                                     )}
                                 </div>
                             ))}
                             
-                            {Courses.length === 0 && (
-                                <div className="text-center p-12 bg-white rounded-xl shadow-lg">
-                                    <div className="text-6xl mb-4">🎓</div>
-                                    <p className="text-gray-600 text-lg"></p>
+                            {enrollment.length === 0 && (
+                                <div className="text-center p-12 bg-slate-800/60 border border-slate-700 rounded-xl">
+                                    <p className="text-slate-400 text-lg">لا توجد تسجيلات بعد. قم بإضافة تسجيل جديد!</p>
                                 </div>
                             )}
                         </div>

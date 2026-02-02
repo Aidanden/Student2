@@ -52,8 +52,25 @@ model Enrollment {
 }
 
 model User {
-  id       Int     @id @default(autoincrement())
-  username String  @unique
-  password String
-  exist    Boolean
+  id          Int              @id @default(autoincrement())
+  username    String           @unique
+  password    String
+  exist       Boolean          @default(true)
+  permissions UserPermission[]
+}
+
+model Permission {
+  id    Int              @id @default(autoincrement())
+  name  String           @unique // e.g., "عرض لوحة التحكم"
+  code  String           @unique // e.g., "VIEW_DASHBOARD"
+  users UserPermission[]
+}
+
+model UserPermission {
+  userId       Int
+  permissionId Int
+  user         User       @relation(fields: [userId], references: [id])
+  permission   Permission @relation(fields: [permissionId], references: [id])
+
+  @@id([userId, permissionId])
 }

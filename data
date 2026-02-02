@@ -1,0 +1,17 @@
+ID	Name	Code
+1	عرض الطلاب	 STUDENTS_VIEW
+2	حذف الطلاب	STUDENTS_DELETE
+3 تعديل طلاب STUDENT_UPDATE
+
+
+
+ID	Username  password
+10	ahmed     123
+
+userId	permissionId
+10      	1
+10          3
+
+
+
+npx ts-node src/scripts/seedPermissions.ts

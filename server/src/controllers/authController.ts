@@ -4,13 +4,12 @@ import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
 import crypto from "crypto";
 import { config } from "../config/app.config";
-import { exists } from "fs";
 
 const JWT_SECRET = config.jwtSecret;
 
 export const register = async (req: Request, res: Response) => {
     const { username, password } = req.body;
-    
+
     if (!username || !password) {
         res.status(400).json({ error: "Username and password are required" });
         return;
@@ -49,9 +48,9 @@ export const login = async (req: Request, res: Response) => {
     const { username, password } = req.body;
     try {
         const user = await prisma.user.findFirst({
-            where: { 
+            where: {
                 username,
-                exist: true 
+                exist: true
             },
         });
 
@@ -80,10 +79,26 @@ export const login = async (req: Request, res: Response) => {
             }
         );
 
+        /// permissions
+        const userWithPermissions = await prisma.user.findUnique({
+            where: { id: user.id },
+            include: {
+                permissions: {
+                    include: {
+                        permission: true
+                    }
+                }
+            }
+        });
+//-----------------------------------------------------
         res.status(200).json({
             message: "Login successful",
             token,
-            user: { id: user.id, username: user.username },
+            user: {
+                id: user.id,
+                username: user.username,
+                permissions: userWithPermissions?.permissions.map(p => p.permission.code) || []
+            },
         });
     } catch (error) {
         res.status(500).json({ error: "Login failed" });
@@ -94,7 +109,14 @@ export const login = async (req: Request, res: Response) => {
 export const getUsers = async (req: Request, res: Response) => {
     try {
         const Users = await prisma.user.findMany({
-            where: { exist: true }
+            where: { exist: true },
+            include: {
+                permissions: {
+                    include: {
+                        permission: true
+                    }
+                }
+            }
         });
         res.status(200).json(Users);
     } catch (error) {
@@ -110,11 +132,17 @@ export const getUserById = async (req: Request, res: Response) => {
 
     try {
         const User = await prisma.user.findFirst({
-            where: { 
-                id: parseInt(id), 
-                exist: true 
+            where: {
+                id: parseInt(id),
+                exist: true
             },
-
+            include: {
+                permissions: {
+                    include: {
+                        permission: true
+                    }
+                }
+            }
         });
         if (!User) {
             res.status(404).json({ error: "User not found" });

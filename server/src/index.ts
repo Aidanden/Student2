@@ -7,6 +7,7 @@ import studentRoutes from "./routes/studentRoute";
 import courseRoutes from "./routes/courseRoute";
 import enrollmentRoutes from "./routes/enrollmentRoute";
 import authRoutes from "./routes/authRoute";
+import permissionRoutes from "./routes/permissionRoute";
 
 const app = express();
 
@@ -21,6 +22,7 @@ app.use("/students", studentRoutes);
 app.use("/courses", courseRoutes);
 app.use("/enrollments", enrollmentRoutes);
 app.use("/users", authRoutes);
+app.use("/permissions", permissionRoutes);
 // Root route
 app.get("/", (req, res) => {
     res.send("Welcome to Student Management API");

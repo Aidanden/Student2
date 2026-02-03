@@ -5,6 +5,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useAppDispatch, useAppSelector } from "@/lib/store/hooks";
 import { setIsSidebarCollapsed } from "@/lib/store/slices/globalSlice";
+import { PERMISSIONS } from "@/lib/constants/permissions";
 import {
   LayoutDashboard,
   Users,
@@ -16,7 +17,8 @@ import {
   ChevronLeft,
   CircleUser,
   LogOut,
-  Search
+  Search,
+  Shield
 } from "lucide-react";
 
 interface SidebarLinkProps {
@@ -70,23 +72,29 @@ const Sidebar = () => {
   const dispatch = useAppDispatch();
   const isCollapsed = useAppSelector((state) => state.global.isSidebarCollapsed);
   const pathname = usePathname();
+  const user = useAppSelector((state) => state.auth.user);
+  const userPermissions = user?.permissions ?? [];
+
+  const hasPermission = (code: string) => userPermissions.includes(code);
 
   const toggleSidebar = () => {
     dispatch(setIsSidebarCollapsed(!isCollapsed));
   };
 
-  const menuItems = [
-    { href: "/", icon: LayoutDashboard, label: "الرئيسية" },
-    { href: "/department", icon: BookOpen, label: "الأقسام" },
-    { href: "/student", icon: Users, label: "الطلاب" },
-    { href: "/course", icon: GraduationCap, label: "الدورات" },
-    { href: "/enrollment", icon: ClipboardList, label: "التسجيل" },
-    { href: "/setting", icon: Settings, label: "ضبط" }
+  const allMenuItems = [
+    { href: "/", icon: LayoutDashboard, label: "الرئيسية", permission: PERMISSIONS.DASHBOARD_VIEW },
+    { href: "/department", icon: BookOpen, label: "الأقسام", permission: PERMISSIONS.DEPARTMENTS_VIEW },
+    { href: "/student", icon: Users, label: "الطلاب", permission: PERMISSIONS.STUDENTS_VIEW },
+    { href: "/course", icon: GraduationCap, label: "الدورات", permission: PERMISSIONS.COURSES_VIEW },
+    { href: "/enrollment", icon: ClipboardList, label: "التسجيل", permission: PERMISSIONS.ENROLLMENTS_VIEW },
+    { href: "/user", icon: CircleUser, label: "المستخدمين", permission: PERMISSIONS.USERS_VIEW },
+    { href: "/permission", icon: Shield, label: "الصلاحيات", permission: PERMISSIONS.PERMISSIONS_VIEW },
+    { href: "/setting", icon: Settings, label: "ضبط", permission: PERMISSIONS.DASHBOARD_VIEW },
   ];
 
-  const bottomItems = [
-    { href: "/settings", icon: Settings, label: "الإعدادات" },
-  ];
+  const menuItems = allMenuItems.filter((item) => hasPermission(item.permission));
+
+ 
 
   return (
     <aside
@@ -167,14 +175,6 @@ const Sidebar = () => {
               أدوات النظام
             </p>
           )}
-          {bottomItems.map((item) => (
-            <SidebarLink
-              key={item.href}
-              {...item}
-              isCollapsed={isCollapsed}
-              isActive={pathname === item.href}
-            />
-          ))}
         </div>
 
         {/* User Profile / Footer Section */}
@@ -183,9 +183,11 @@ const Sidebar = () => {
             <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-slate-700 to-slate-800 flex items-center justify-center border border-white/10 shrink-0">
               <CircleUser size={24} className="text-slate-400" />
             </div>
-            {!isCollapsed && (
-              <div className="flex-1 min-w-0">
-                <p className="text-sm font-semibold truncate text-white">مستخدم افتراضي</p>
+          {!isCollapsed && (
+            <div className="flex-1 min-w-0">
+                <p className="text-sm font-semibold truncate text-white">
+                  {user?.username ?? "مستخدم"}
+                </p>
                 <p className="text-xs text-slate-500 truncate">مسؤول النظام</p>
               </div>
             )}

@@ -3,6 +3,8 @@
 import { useEffect, useState } from "react";
 import Link from "next/link";
 import { useAppDispatch, useAppSelector } from "@/lib/store/hooks";
+import { usePermission } from "@/lib/hooks/usePermission";
+import { PERMISSIONS } from "@/lib/constants/permissions";
 import {
     fetchUsers,
     createUser,
@@ -13,9 +15,12 @@ import {
 import { User } from "@/types/user.type";
 
 export default function UserPage() {
-    // Redux State
     const dispatch = useAppDispatch();
     const { Users, loading, error } = useAppSelector((state) => state.users);
+    const canView = usePermission(PERMISSIONS.USERS_VIEW);
+    const canCreate = usePermission(PERMISSIONS.USERS_CREATE);
+    const canUpdate = usePermission(PERMISSIONS.USERS_UPDATE);
+    const canDelete = usePermission(PERMISSIONS.USERS_DELETE);
 
     // Local UI State
     const [newUserName, setNewUserName] = useState("");
@@ -124,6 +129,19 @@ export default function UserPage() {
 
 
 
+    if (!canView) {
+        return (
+            <div className="min-h-[calc(100vh-64px)] p-6 flex items-center justify-center">
+                <div className="text-center p-8 bg-slate-800/60 border border-slate-700 rounded-xl">
+                    <p className="text-red-300 text-lg">ليس لديك صلاحية لعرض هذه الصفحة.</p>
+                    <Link href="/" className="mt-4 inline-block px-4 py-2 rounded-xl bg-slate-600 text-white hover:bg-slate-500">
+                        الرجوع للرئيسية
+                    </Link>
+                </div>
+            </div>
+        );
+    }
+
     return (
         <div className="min-h-[calc(100vh-64px)] p-6">
             <div className="max-w-6xl mx-auto space-y-6">
@@ -137,6 +155,7 @@ export default function UserPage() {
                     </Link>
                 </div>
 
+                {canCreate && (
                 <form onSubmit={handleAddUser} className="p-8 bg-slate-800/60 border border-slate-700 rounded-xl shadow-xl">
                     <h2 className="text-xl font-bold mb-6 text-slate-200">إضافة مستخدم جديد</h2>
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
@@ -162,6 +181,7 @@ export default function UserPage() {
                         إضافة
                     </button>
                 </form>
+                )}
 
                 {/* Loading/Error States */}
                 {loading ? (
@@ -253,18 +273,22 @@ export default function UserPage() {
                                                     </div>
                                                 </div>
                                                 <div className="flex gap-2">
+                                                    {canUpdate && (
                                                     <button
                                                         onClick={() => startEdit(user)}
                                                         className="bg-amber-500 text-white px-4 py-2 rounded-xl hover:bg-amber-600 transition font-semibold"
                                                     >
                                                         تعديل
                                                     </button>
+                                                    )}
+                                                    {canDelete && (
                                                     <button
                                                         onClick={() => handleDeleteUser(user.id)}
                                                         className="bg-red-500 text-white px-4 py-2 rounded-xl hover:bg-red-600 transition font-semibold"
                                                     >
                                                         حذف
                                                     </button>
+                                                    )}
                                                 </div>
                                             </div>
                                         )}

@@ -7,6 +7,7 @@ import enrollmentReducer from "./slices/enrollmentSlice";
 import globalReducer from "./slices/globalSlice";
 import authReducer from "./slices/authSlice";
 import userReducer from "./slices/userSlice";
+import permissionReducer from "./slices/permissionSlice";
 
 export const store = configureStore({
     reducer: {
@@ -17,6 +18,7 @@ export const store = configureStore({
         enrollments: enrollmentReducer,
         auth: authReducer,
         users: userReducer,
+        permissions: permissionReducer,
     },
     middleware: (getDefaultMiddleware) =>
         getDefaultMiddleware({

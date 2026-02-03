@@ -21,7 +21,16 @@ const LoginPage = () => {
 
         try {
             const data = await authApi.login({ username, password });
-            dispatch(setCredentials({ user: data.user, token: data.token }));
+            dispatch(
+                setCredentials({
+                    user: {
+                        id: data.user.id,
+                        username: data.user.username,
+                        permissions: data.user.permissions || [],
+                    },
+                    token: data.token,
+                })
+            );
             router.push("/");
         } catch (err: unknown) {
             setError((err as { message?: string })?.message || "فشل في تسجيل الدخول");

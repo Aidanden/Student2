@@ -14,6 +14,7 @@ export interface AuthResponse {
     user: {
         id: number;
         username: string;
+        permissions?: string[];
     };
 }
 

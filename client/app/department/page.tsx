@@ -13,6 +13,7 @@ import {
     clearError,
 } from "@/lib/store/slices/departmentSlice";
 import { Department } from "@/types/department.types";
+import { TrendingUpDown } from "lucide-react";
 
 export default function DepartmentPage() {
     const dispatch = useAppDispatch();
@@ -95,7 +96,7 @@ export default function DepartmentPage() {
         dispatch(clearError());
     };
 
-    if (!canView) {
+    if (canView === TrendingUpDown) {
         return (
             <div className="min-h-[calc(100vh-64px)] p-6 flex items-center justify-center">
                 <div className="text-center p-8 bg-slate-800/60 border border-slate-700 rounded-xl">

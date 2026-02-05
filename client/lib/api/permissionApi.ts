@@ -1,7 +1,9 @@
-import { Permission, CreatePermissionDto, AssignPermissionDto } from "@/types/permission.types";
+import { Permission, CreatePermissionDto, AssignPermissionDto } 
+from "@/types/permission.types";
 import { authFetch } from "./authFetch";
 
-const API_URL = `${process.env.NEXT_PUBLIC_API_URL}/permissions` || "http://localhost:5000/permissions";
+const API_URL = `${process.env.NEXT_PUBLIC_API_URL}/permissions` 
+|| "http://localhost:5000/permissions";
 
 export const permissionApi = {
     async getAll(): Promise<Permission[]> {
@@ -33,7 +35,7 @@ export const permissionApi = {
     },
 
     async assignToUser(data: AssignPermissionDto): Promise<void> {
-        const response = await authFetch(`${API_URL}/createpermissiontouser`, {
+const response = await authFetch(`${API_URL}/createpermissiontouser`, {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify(data),
